@@ -1,18 +1,17 @@
 [phases.setup]
-nixPkgs = ['nodejs_22', 'npm-10_x', 'php83', 'php83Packages.composer']
+nixPkgs = ['nodejs_22', 'php84', 'php84Packages.composer']
 
 [phases.install]
 cmds = [
-    'mkdir -p /var/log/nginx && mkdir -p /var/cache/nginx',
-    'composer install --ignore-platform-reqs',
+    'composer install --ignore-platform-reqs --no-scripts',
     'npm install'
 ]
 
 [phases.build]
 cmds = [
     'npm run build',
-    'composer install --no-dev --optimize-autoloader'
+    'composer install --no-dev --optimize-autoloader --ignore-platform-reqs'
 ]
 
 [start]
-cmd = 'php artisan migrate --force && php artisan config:cache && php artisan route:cache && /start-container.sh'
+cmd = 'php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan serve --host=0.0.0.0 --port=$PORT'
