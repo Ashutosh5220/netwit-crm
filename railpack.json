@@ -1,0 +1,5 @@
+{
+    "installNode": {
+        "command": "npm install --legacy-peer-deps"
+    }
+}
